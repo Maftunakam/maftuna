@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAISON — Enter Product</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a08;
+    font-family: 'Montserrat', sans-serif;
+    color: #e8e0d0;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #5a5040;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 3.5rem;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover { color: #b89a5a; }
+
+  .back-link .arrow {
+    font-size: 14px;
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+
+  .back-link:hover .arrow { transform: translateX(-3px); }
+
+  /* ── Brand header ── */
+  .brand-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .store-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: #f0e8d8;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .store-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: #b89a5a;
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+  }
+
+  .brand-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+
+  .brand-rule span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #b89a5a;
+  }
+
+  .brand-rule::before,
+  .brand-rule::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: linear-gradient(to right, transparent, #b89a5a66, #b89a5a, #b89a5a66, transparent);
+  }
+
+  /* ── Form card ── */
+  .form-card {
+    border: 0.5px solid #2a2420;
+    background: #0e0e0c;
+    padding: 3rem 2.5rem;
+    position: relative;
+    animation: fadeIn 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Decorative corner brackets */
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 28px; height: 28px;
+    border-top: 1px solid #b89a5a;
+    border-left: 1px solid #b89a5a;
+  }
+
+  .form-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 28px; height: 28px;
+    border-bottom: 1px solid #b89a5a;
+    border-right: 1px solid #b89a5a;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: #f0e8d8;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+
+  .form-subtitle {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #4a4438;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Field groups ── */
+  .field-group {
+    margin-bottom: 1.8rem;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #7a7060;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  .field-label .required {
+    color: #b89a5a;
+    margin-left: 4px;
+  }
+
+  .field-input,
+  .field-select {
+    width: 100%;
+    background: #0a0a08;
+    border: 0.5px solid #2a2420;
+    color: #e8e0d0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    padding: 13px 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .field-input::placeholder {
+    color: #3a3228;
+    letter-spacing: 0.06em;
+  }
+
+  .field-input:focus,
+  .field-select:focus {
+    border-color: #b89a5a;
+    box-shadow: 0 0 0 1px rgba(184, 154, 90, 0.12);
+  }
+
+  /* Custom select arrow */
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b89a5a;
+    font-size: 10px;
+    pointer-events: none;
+  }
+
+  .field-select {
+    cursor: pointer;
+    padding-right: 36px;
+    color: #e8e0d0;
+  }
+
+  .field-select option {
+    background: #111109;
+    color: #e8e0d0;
+  }
+
+  /* Image preview */
+  .img-preview-wrap {
+    margin-top: 10px;
+    width: 100%;
+    height: 160px;
+    border: 0.5px dashed #2a2420;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .img-preview-wrap.has-image {
+    border-style: solid;
+    border-color: #3a3228;
+  }
+
+  .img-preview-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .img-preview-placeholder {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #2a2420;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .img-preview-placeholder .icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 6px;
+    color: #3a3228;
+  }
+
+  /* Field hint */
+  .field-hint {
+    font-size: 9px;
+    color: #3a3228;
+    letter-spacing: 0.15em;
+    margin-top: 7px;
+  }
+
+  /* Divider */
+  .form-divider {
+    height: 0.5px;
+    background: linear-gradient(to right, transparent, #2a2420, transparent);
+    margin: 2.2rem 0;
+  }
+
+  /* ── Submit button ── */
+  .btn-submit {
+    width: 100%;
+    background: #b89a5a;
+    border: none;
+    color: #0a0a08;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 16px 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.35s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #d4b87a;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .btn-submit:hover::before { transform: scaleX(1); }
+
+  .btn-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .btn-submit:disabled::before { display: none; }
+
+  .btn-submit-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Spinner */
+  .spinner {
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid rgba(10,10,8,0.3);
+    border-top-color: #0a0a08;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .btn-submit.loading .spinner { display: block; }
+  .btn-submit.loading .btn-text { opacity: 0.7; }
+
+  /* ── Success overlay ── */
+  .success-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 8, 0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    animation: overlayIn 0.4s ease forwards;
+  }
+
+  .success-overlay.show {
+    display: flex;
+  }
+
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .success-card {
+    border: 0.5px solid #b89a5a;
+    background: #0e0e0c;
+    padding: 3.5rem 3rem;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    position: relative;
+    animation: cardIn 0.5s 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(24px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .success-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 24px; height: 24px;
+    border-top: 1px solid #b89a5a;
+    border-left: 1px solid #b89a5a;
+  }
+
+  .success-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 24px; height: 24px;
+    border-bottom: 1px solid #b89a5a;
+    border-right: 1px solid #b89a5a;
+  }
+
+  .success-icon {
+    font-size: 32px;
+    margin-bottom: 1.2rem;
+    display: block;
+    color: #b89a5a;
+    letter-spacing: 0;
+  }
+
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: #f0e8d8;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.6rem;
+  }
+
+  .success-sub {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #5a5040;
+    line-height: 1.8;
+  }
+
+  .success-redirect {
+    margin-top: 2rem;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b89a5a;
+  }
+
+  .success-redirect .countdown {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  /* ── Error message ── */
+  .error-msg {
+    display: none;
+    margin-top: 1rem;
+    padding: 12px 16px;
+    border: 0.5px solid #6b3030;
+    background: rgba(107, 48, 48, 0.1);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #c08080;
+  }
+
+  .error-msg.show { display: block; }
+
+  @media (max-width: 600px) {
+    .store-name { font-size: 32px; }
+    .form-card { padding: 2rem 1.5rem; }
+    .success-card { padding: 2.5rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a href="index.html" class="back-link">
+    <span class="arrow">←</span>
+    <span>Back to Collection</span>
+  </a>
+
+  <div class="brand-header">
+    <h1 class="store-name">MAISON</h1>
+    <p class="store-tagline">Curated objects of distinction</p>
+  </div>
+
+  <div class="brand-rule"><span>New Entry</span></div>
+
+  <div class="form-card">
+    <h2 class="form-title">Enter Product</h2>
+    <p class="form-subtitle">Add a new piece to the curated collection</p>
+
+    <!-- name -->
+    <div class="field-group">
+      <label class="field-label" for="f-name">
+        Product Name <span class="required">*</span>
+      </label>
+      <input
+        id="f-name"
+        class="field-input"
+        type="text"
+        name="name"
+        placeholder="e.g. Silk Evening Scarf"
+        autocomplete="off"
+        required
+      />
+    </div>
+
+    <!-- category -->
+    <div class="field-group">
+      <label class="field-label" for="f-category">
+        Category <span class="required">*</span>
+      </label>
+      <div class="select-wrap">
+        <select id="f-category" class="field-select" name="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Home">Home</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- price -->
+    <div class="field-group">
+      <label class="field-label" for="f-price">
+        Price <span class="required">*</span>
+      </label>
+      <input
+        id="f-price"
+        class="field-input"
+        type="text"
+        name="price"
+        placeholder="e.g. $185"
+        autocomplete="off"
+        required
+      />
+      <p class="field-hint">Include currency symbol — e.g. $185 or €240</p>
+    </div>
+
+    <div class="form-divider"></div>
+
+    <!-- img -->
+    <div class="field-group">
+      <label class="field-label" for="f-img">
+        Image URL <span class="required">*</span>
+      </label>
+      <input
+        id="f-img"
+        class="field-input"
+        type="url"
+        name="img"
+        placeholder="https://images.unsplash.com/…"
+        autocomplete="off"
+        required
+      />
+      <p class="field-hint">Paste a direct image URL (Unsplash, Imgur, etc.)</p>
+      <div class="img-preview-wrap" id="img-preview-wrap">
+        <div class="img-preview-placeholder">
+          <span class="icon">⬡</span>
+          Image preview
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button class="btn-submit" id="btn-submit" type="button" onclick="handleSubmit()">
+      <span class="btn-submit-inner">
+        <span class="spinner" id="spinner"></span>
+        <span class="btn-text" id="btn-text">Submit Product</span>
+      </span>
+    </button>
+
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+</div>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <span class="success-icon">✦</span>
+    <h3 class="success-title">Product Added</h3>
+    <p class="success-sub">Your piece has been submitted<br>to the curated collection</p>
+    <p class="success-redirect">
+      Returning to collection in
+      <span class="countdown" id="countdown">3</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  // ── Configuration ──────────────────────────────────────────────
+  const WEB_APP_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+  // ── Live image preview ─────────────────────────────────────────
+  const imgInput   = document.getElementById('f-img');
+  const previewWrap = document.getElementById('img-preview-wrap');
+
+  imgInput.addEventListener('input', () => {
+    const url = imgInput.value.trim();
+    if (!url) {
+      resetPreview();
+      return;
+    }
+    const testImg = new Image();
+    testImg.onload = () => {
+      previewWrap.innerHTML = `<img src="${url}" alt="Preview" />`;
+      previewWrap.classList.add('has-image');
+    };
+    testImg.onerror = resetPreview;
+    testImg.src = url;
+  });
+
+  function resetPreview() {
+    previewWrap.classList.remove('has-image');
+    previewWrap.innerHTML = `
+      <div class="img-preview-placeholder">
+        <span class="icon">⬡</span>
+        Image preview
+      </div>`;
+  }
+
+  // ── Validation ─────────────────────────────────────────────────
+  function getFields() {
+    return {
+      name:     document.getElementById('f-name').value.trim(),
+      category: document.getElementById('f-category').value.trim(),
+      price:    document.getElementById('f-price').value.trim(),
+      img:      document.getElementById('f-img').value.trim(),
+    };
+  }
+
+  function validate(fields) {
+    if (!fields.name)     return 'Product name is required.';
+    if (!fields.category) return 'Please select a category.';
+    if (!fields.price)    return 'Price is required.';
+    if (!fields.img)      return 'Image URL is required.';
+    try { new URL(fields.img); } catch { return 'Please enter a valid image URL.'; }
+    return null;
+  }
+
+  // ── Submit handler ─────────────────────────────────────────────
+  async function handleSubmit() {
+    const btn     = document.getElementById('btn-submit');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btn-text');
+    const errMsg  = document.getElementById('error-msg');
+
+    errMsg.classList.remove('show');
+
+    const fields = getFields();
+    const error  = validate(fields);
+
+    if (error) {
+      errMsg.textContent = error;
+      errMsg.classList.add('show');
+      return;
+    }
+
+    // Loading state
+    btn.disabled = true;
+    btn.classList.add('loading');
+    spinner.style.display = 'block';
+    btnText.textContent = 'Submitting…';
+
+    // Build URL with parameters matching the variable names from the HTML file
+    const params = new URLSearchParams({
+      name:     fields.name,
+      category: fields.category,
+      price:    fields.price,
+      img:      fields.img,
+    });
+
+    const targetURL = `${WEB_APP_URL}?${params.toString()}`;
+
+    try {
+      const response = await fetch(targetURL, { method: 'GET', mode: 'no-cors' });
+      // no-cors means we won't get a readable response body,
+      // but the request reaches the Apps Script endpoint.
+      showSuccess();
+    } catch (err) {
+      // Restore button
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      spinner.style.display = 'none';
+      btnText.textContent = 'Submit Product';
+
+      errMsg.textContent = 'Submission failed. Please check your connection and try again.';
+      errMsg.classList.add('show');
+    }
+  }
+
+  // ── Success + countdown redirect ───────────────────────────────
+  function showSuccess() {
+    const overlay   = document.getElementById('success-overlay');
+    const countdown = document.getElementById('countdown');
+    overlay.classList.add('show');
+
+    let secs = 3;
+    countdown.textContent = secs;
+
+    const timer = setInterval(() => {
+      secs--;
+      countdown.textContent = secs;
+      if (secs <= 0) {
+        clearInterval(timer);
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAISON — Curated Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0a08;
+    font-family: 'Montserrat', sans-serif;
+    color: #e8e0d0;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+  }
+
+  /* ── Header area with Enter Product button ── */
+  .header-bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-enter-product {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 0.5px solid #b89a5a;
+    color: #b89a5a;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s ease;
+  }
+
+  .btn-enter-product::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #b89a5a;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 0;
+  }
+
+  .btn-enter-product:hover::before { transform: scaleX(1); }
+  .btn-enter-product:hover { color: #0a0a08; }
+
+  .btn-enter-product span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-enter-product .btn-icon {
+    position: relative;
+    z-index: 1;
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-enter-product:hover .btn-icon { transform: rotate(90deg); }
+
+  /* ── Brand header ── */
+  .brand-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .brand-rule {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .brand-rule span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #b89a5a;
+  }
+
+  .brand-rule::before,
+  .brand-rule::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: linear-gradient(to right, transparent, #b89a5a66, #b89a5a, #b89a5a66, transparent);
+  }
+
+  .store-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: #f0e8d8;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .store-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #b89a5a;
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 3rem;
+    border-bottom: 0.5px solid #3a3228;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: none;
+    color: #7a7060;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 10px 22px 13px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+  }
+
+  .filter-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5px;
+    left: 0; right: 0;
+    height: 1.5px;
+    background: #b89a5a;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .filter-btn.active { color: #b89a5a; }
+  .filter-btn.active::after { transform: scaleX(1); }
+  .filter-btn:hover { color: #d4b87a; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2px;
+  }
+
+  .card {
+    position: relative;
+    background: #111109;
+    overflow: hidden;
+    cursor: pointer;
+    animation: fadeIn 0.7s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-img-wrap {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+
+  .card-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.9s ease;
+    filter: brightness(0.88) saturate(0.8);
+  }
+
+  .card:hover .card-img-wrap img {
+    transform: scale(1.07);
+    filter: brightness(0.72) saturate(0.65);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5,4,3,0.88) 0%, rgba(5,4,3,0.18) 55%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .card-corner {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 26px; height: 26px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .card:hover .card-corner { opacity: 1; }
+  .card-corner::before, .card-corner::after { content: ''; position: absolute; background: #b89a5a; }
+  .card-corner::before { top: 0; right: 0; width: 100%; height: 1px; }
+  .card-corner::after  { top: 0; right: 0; width: 1px; height: 100%; }
+
+  .card-corner-bl {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    width: 26px; height: 26px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .card:hover .card-corner-bl { opacity: 1; }
+  .card-corner-bl::before, .card-corner-bl::after { content: ''; position: absolute; background: #b89a5a; }
+  .card-corner-bl::before { bottom: 0; left: 0; width: 100%; height: 1px; }
+  .card-corner-bl::after  { bottom: 0; left: 0; width: 1px; height: 100%; }
+
+  .card-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 22px 20px 20px;
+  }
+
+  .card-category {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #b89a5a;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: #f0e8d8;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: #d4c4a0;
+    letter-spacing: 0.06em;
+  }
+
+  .card-add {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #0a0a08;
+    background: #b89a5a;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+
+  .card-add:hover { background: #d4b87a; }
+
+  .item-count {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #4a4438;
+  }
+
+  @media (max-width: 600px) {
+    .store-name { font-size: 38px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .btn-enter-product { font-size: 8px; padding: 9px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Enter Product button -->
+  <div class="header-bar">
+    <a href="add-product.html" class="btn-enter-product">
+      <span class="btn-icon">+</span>
+      <span>Enter Product</span>
+    </a>
+  </div>
+
+  <div class="brand-header">
+    <h1 class="store-name">MAISON</h1>
+    <p class="store-tagline">Curated objects of distinction</p>
+  </div>
+
+  <div class="brand-rule"><span>Collection 2025</span></div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filter('all', this)">All</button>
+    <button class="filter-btn" onclick="filter('Electronics', this)">Tech</button>
+    <button class="filter-btn" onclick="filter('Home', this)">Home</button>
+    <button class="filter-btn" onclick="filter('Accessories', this)">Accessories</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="item-count" id="count">8 pieces</div>
+
+</div>
+
+<script>
+  const products = [
+    { name: "Wireless Headphones",  category: "Electronics", price: "$89",  img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80" },
+    { name: "Ceramic Mug",          category: "Home",        price: "$18",  img: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=600&q=80" },
+    { name: "Leather Tote",         category: "Accessories", price: "$245", img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80" },
+    { name: "Bluetooth Speaker",    category: "Electronics", price: "$59",  img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80" },
+    { name: "Scented Candle",       category: "Home",        price: "$42",  img: "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=600&q=80" },
+    { name: "Leather Wallet",       category: "Accessories", price: "$125", img: "https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80" },
+    { name: "Marble Phone Stand",   category: "Electronics", price: "$34",  img: "https://images.unsplash.com/photo-1586495777744-4e6232bf2177?w=600&q=80" },
+    { name: "Linen Throw",          category: "Home",        price: "$68",  img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&q=80" },
+  ];
+
+  function render(list) {
+    const g = document.getElementById('grid');
+    g.innerHTML = list.map((p, i) => `
+      <div class="card" style="animation-delay:${i * 0.08}s">
+        <div class="card-img-wrap">
+          <img src="${p.img}" alt="${p.name}" loading="lazy" />
+          <div class="card-overlay"></div>
+          <div class="card-corner"></div>
+          <div class="card-corner-bl"></div>
+          <div class="card-info">
+            <div class="card-category">${p.category}</div>
+            <div class="card-name">${p.name}</div>
+            <div class="card-footer">
+              <span class="card-price">${p.price}</span>
+              <button class="card-add">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    document.getElementById('count').textContent =
+      list.length + ' piece' + (list.length !== 1 ? 's' : '');
+  }
+
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(cat === 'all' ? products : products.filter(p => p.category === cat));
+  }
+
+  render(products);
+</script>
+</body>
+</html>
